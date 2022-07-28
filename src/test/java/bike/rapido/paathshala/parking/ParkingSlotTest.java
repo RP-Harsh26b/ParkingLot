@@ -1,26 +1,66 @@
 package bike.rapido.paathshala.parking;
 
+import bike.rapido.paathshala.Person;
+import bike.rapido.paathshala.vehicle.Car;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 
 public class ParkingSlotTest {
 
-	public static final int TOTAL_PARKING_SLOTS = 100;
-	private ParkingSlot parkingSlot;
+	private Person samplePerson;
+	private ParkingSlot nonEmptyParkingSlot;
+	private final ParkingSlot emptyParkingSlot = new ParkingSlot(true, null);
+
 
 	@Before
-	public void setUp() throws Exception {
-		parkingSlot = new ParkingSlot(TOTAL_PARKING_SLOTS);
+	public void setUp(){
+		samplePerson = new Person(new Car("DL5CQ 0258"));
+		nonEmptyParkingSlot = new ParkingSlot(false,samplePerson);
+
+
 	}
 
 	@Test
-	public void shouldReturnNumberOfEmptySlotsInParkingArea() {
-		int receivedOutput = parkingSlot.getEmptyParkingSlotsCount();
+	public void shouldReturnId() {
+		int returnedId = nonEmptyParkingSlot.getId();
 
-		assertThat(receivedOutput,is(TOTAL_PARKING_SLOTS));
-
+		assertThat(returnedId, CoreMatchers.instanceOf(Integer.class));
 	}
+
+	@Test
+	public void shouldReturnIsEmpty() {
+		boolean returnedIsEmpty = nonEmptyParkingSlot.getIsEmpty();
+
+		assertThat(returnedIsEmpty, instanceOf(Boolean.class));
+	}
+
+	@Test
+	public void shouldReturnPersonIfNotEmpty() {
+		Person returnedPerson = nonEmptyParkingSlot.getPerson();
+
+		assertThat(returnedPerson, is(samplePerson));
+	}
+
+	@Test
+	public void shouldReturnNullIfEmpty() {
+		Person returnedPerson = emptyParkingSlot.getPerson();
+
+		assertNull(returnedPerson);
+	}
+
+	@Test
+	public void shouldReturnDetailedStringOfParkingSlot() {
+		String receivedString = nonEmptyParkingSlot.toString();
+		String expectedString = "ParkingSlot{id=6, isEmpty=false, person=Person{car=Car{carNumber='DL5CQ 0258'}}}";
+
+		assertThat(receivedString, is(expectedString));
+	}
+
+
 }

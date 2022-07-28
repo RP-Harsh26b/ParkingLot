@@ -14,7 +14,14 @@ public class Person {
 		return this.car;
 	}
 
-	public int parkVehicle(Car car) {
-
+	@Override
+	public String toString() {
+		return "Person{" +
+				"car=" + car +
+				'}';
 	}
+
+	//	public int parkVehicle(Car car) {
+//
+//	}
 }

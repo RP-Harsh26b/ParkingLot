@@ -13,8 +13,9 @@ public class ParkingManagement {
 		String vehicleNumber = scanner.nextLine();
 		Car car = new Car(vehicleNumber);
 		Person person = new Person(car);
-		int parkedLocation = person.parkVehicle(car);
-		System.out.format("Your vehicle %s is parked at %d",vehicleNumber,parkedLocation);
+		// TODO: 28/07/22 Uncomment the method when parkVehicle method is ready
+//		int parkedLocation = person.parkVehicle(car);
+//		System.out.format("Your vehicle %s is parked at %d",vehicleNumber,parkedLocation);
 
 
 //		while (true) {

@@ -26,4 +26,5 @@ public class CarTest {
 			"carNumber='" + CAR_NUMBER + '\'' +
 			'}'));
 	}
+
 }
