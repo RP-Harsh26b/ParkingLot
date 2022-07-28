@@ -14,7 +14,7 @@ public class Person {
 		return this.car;
 	}
 
-	public Boolean parkVehicle() {
-		return true;
+	public int parkVehicle(Car car) {
+
 	}
 }

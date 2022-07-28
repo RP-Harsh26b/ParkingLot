@@ -29,7 +29,7 @@ public class PersonTest {
 	public void parkVehicleShouldReturnBoolean() {
 
 		Boolean expectedOutput = true;
-		Boolean receivedOutput = person.parkVehicle();
+		int receivedOutput = person.parkVehicle(car);
 
 		assertThat(expectedOutput,is(receivedOutput));
 	}
