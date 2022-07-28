@@ -6,10 +6,10 @@ public class ParkingManagement {
 	public static void main(String[] args)
 	{
 		int choice;
-		System.out.println("Welcome to FizzBuzz!!");
+		System.out.println("Welcome to Parking Management System!!");
 
 		while (true) {
-			System.out.print("\n1.Enter a number for FizzBuzz\n2.Exit!\n");
+			System.out.print("\n1.Park a Vehicle\n2.Exit!\n");
 			System.out.print("Enter the choice : ");
 			try {
 				Scanner choiceInput = new Scanner(System.in);

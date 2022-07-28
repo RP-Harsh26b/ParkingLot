@@ -4,7 +4,7 @@ import bike.rapido.paathshala.vehicle.Car;
 
 public class Person {
 
-	private Car car;
+	private final Car car;
 
 	public Person(Car car) {
 		this.car = car;

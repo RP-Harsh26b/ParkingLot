@@ -12,7 +12,7 @@ public class PersonTest {
 	private Person person;
 	private final Car car = new Car("DL5CQ 0258");
 	@Before
-	public void setup()
+	public void setUp()
 	{
 		person = new Person(car);
 	}
