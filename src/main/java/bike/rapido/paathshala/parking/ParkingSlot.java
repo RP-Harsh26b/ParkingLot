@@ -7,13 +7,20 @@ public class ParkingSlot {
     private static Integer idCount = 1;
 
     private final Integer id;
-    Boolean isEmpty;
-    Person person = null;
+    private Boolean isEmpty;
+    private Person person = null;
 
     public ParkingSlot( boolean isEmpty, Person person) {
 
         this.id = getIdCount();
         incrementIdCount();
+        this.isEmpty = isEmpty;
+        this.person = person;
+    }
+
+    public ParkingSlot( Integer id, boolean isEmpty, Person person) {
+
+        this.id = id;
         this.isEmpty = isEmpty;
         this.person = person;
     }

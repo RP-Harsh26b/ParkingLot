@@ -20,7 +20,7 @@ public class ParkingSlotTest {
 
 	@Before
 	public void setUp(){
-		samplePerson = new Person(new Car("DL5CQ 0258"));
+		samplePerson = new Person(new Car("DL5CQ 0258"), "Harshit");
 		nonEmptyParkingSlot = new ParkingSlot(false,samplePerson);
 
 
