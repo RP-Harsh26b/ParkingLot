@@ -54,7 +54,7 @@ public class VehicleParkTest {
 	// TODO: 29/07/22 should change to shouldThrowException when provided slot is not present in car park
 	@Test
 	public void shouldReturnNullWhenProvidedParkingSlotIsNotFound() {
-		ParkingSlot invalidParkingSlot = new ParkingSlot(200, false, sampleCar);
+		ParkingSlot invalidParkingSlot = new ParkingSlot(200, sampleCar);
 		ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(invalidParkingSlot, samplePerson.getCar());
 
 		assertNull(receivedFullParkingSlot);

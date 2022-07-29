@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNull;
 
 public class ParkingSlotTest {
-	private final ParkingSlot emptyParkingSlot = new ParkingSlot(true, null);
+	private final ParkingSlot emptyParkingSlot = new ParkingSlot();
 
 	private Car sampleCar = new Car("DL5CQ 0258");
 	private Person samplePerson;
@@ -21,7 +21,7 @@ public class ParkingSlotTest {
 	@Before
 	public void setUp() {
 		samplePerson = new Person(sampleCar, "Harshit");
-		nonEmptyParkingSlot = new ParkingSlot(false, sampleCar);
+		nonEmptyParkingSlot = new ParkingSlot( sampleCar);
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class ParkingSlotTest {
 	@Test
 	public void shouldReturnDetailedStringOfParkingSlot() {
 
-		ParkingSlot testFullParkingSlot = new ParkingSlot(100,false, sampleCar);
+		ParkingSlot testFullParkingSlot = new ParkingSlot(100, sampleCar);
 
 		String receivedString = testFullParkingSlot.toString();
 		String expectedString = "ParkingSlot{id=100, isEmpty=false, car=Car{carNumber='DL5CQ 0258'}}";

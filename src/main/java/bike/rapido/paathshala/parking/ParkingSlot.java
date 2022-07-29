@@ -7,23 +7,24 @@ public class ParkingSlot {
 
 	private static Integer idCount = 1;
 
-	private final Integer id;
-	private Boolean isEmpty;
+	private Integer id = null;
 	private Car car = null;
 
-	public ParkingSlot(boolean isEmpty, Car car) {
+	public ParkingSlot( Car car) {
 
 		this.id = getIdCount();
 		incrementIdCount();
-		this.isEmpty = isEmpty;
 		this.car = car;
 	}
 
-	public ParkingSlot(Integer id, boolean isEmpty, Car car) {
+	public ParkingSlot(Integer id, Car car) {
 
 		this.id = id;
-		this.isEmpty = isEmpty;
 		this.car = car;
+	}
+
+	public ParkingSlot() {
+		this.car = null;
 	}
 
 	public Car getCar() {
@@ -51,19 +52,17 @@ public class ParkingSlot {
 	}
 
 	public Boolean getIsEmpty() {
-		return isEmpty;
+		if(this.car!=null) return false;
+		else return true;
 	}
 
-	public void setIsEmpty(Boolean empty) {
-		isEmpty = empty;
-	}
 
 
 	@Override
 	public String toString() {
 		return "ParkingSlot{" +
 			"id=" + id +
-			", isEmpty=" + isEmpty +
+			", isEmpty=" + getIsEmpty() +
 			", car=" + car +
 			'}';
 	}

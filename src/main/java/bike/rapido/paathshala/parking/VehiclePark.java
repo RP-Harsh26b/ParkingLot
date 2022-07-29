@@ -11,8 +11,8 @@ public class VehiclePark {
 
 	private final Car testCar = new Car("DL5CQ 0258");
 	private final Person testPerson = new Person(testCar, "Harshit");
-	private final ParkingSlot emptyParkingSlotObject = new ParkingSlot(true, null);
-	private final ParkingSlot fullParkingSlotObject = new ParkingSlot(false,testCar);
+	private final ParkingSlot emptyParkingSlotObject = new ParkingSlot( );
+	private final ParkingSlot fullParkingSlotObject = new ParkingSlot(testCar);
 	private Integer totalParkingSlots;
 	private ArrayList<ParkingSlot> parkingSlotList;
 
@@ -21,6 +21,8 @@ public class VehiclePark {
 		parkingSlotList = new ArrayList<ParkingSlot>(Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
 	}
 
+
+	// For test use only
 	public VehiclePark(int totalParkingSlots, Boolean isFull) {
 		if (!isFull) new VehiclePark(totalParkingSlots);
 		else {
@@ -45,7 +47,6 @@ public class VehiclePark {
 	public ParkingSlot markParked(ParkingSlot receivedEmptyParkingSlot, Car car) {
 		for (ParkingSlot slot : parkingSlotList) {
 			if (Objects.equals(slot, receivedEmptyParkingSlot) && slot.getIsEmpty()) {
-				slot.setIsEmpty(false);
 				slot.setCar(car);
 				return slot;
 			}

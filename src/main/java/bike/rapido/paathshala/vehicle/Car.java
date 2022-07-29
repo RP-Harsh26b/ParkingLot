@@ -2,16 +2,16 @@ package bike.rapido.paathshala.vehicle;
 
 public class Car {
 
-	private final String carNumber;
+	private final String number;
 
-	public Car(String carNumber) {
-		this.carNumber = carNumber;
+	public Car(String number) {
+		this.number = number;
 	}
 
 	@Override
 	public String toString() {
 		return "Car{" +
-			"carNumber='" + carNumber + '\'' +
+			"carNumber='" + number + '\'' +
 			'}';
 	}
 }
