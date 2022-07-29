@@ -1,6 +1,5 @@
 package bike.rapido.paathshala.vehicle;
 
-import bike.rapido.paathshala.vehicle.Car;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,17 +11,15 @@ public class CarTest {
 	private Car car;
 
 	@Before
-	public void setup()
-	{
+	public void setup() {
 		car = new Car(CAR_NUMBER);
 	}
 
 	@Test
-	public void shouldReturnDetailsOfCar()
-	{
+	public void shouldReturnDetailsOfCar() {
 		String receivedCarDetails = car.toString();
 
-		assertThat(receivedCarDetails,is("Car{" +
+		assertThat(receivedCarDetails, is("Car{" +
 			"carNumber='" + CAR_NUMBER + '\'' +
 			'}'));
 	}

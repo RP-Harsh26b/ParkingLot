@@ -12,34 +12,30 @@ import static org.junit.Assert.assertNotNull;
 
 public class PersonTest {
 
-	public Person person;
 	public final Car car = new Car("DL5CQ 0258");
-
 	public final int totalParkingSlots = 10;
-
-	public VehiclePark testEmptyPark= new VehiclePark(totalParkingSlots);
-	public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots,true);
+	public Person person;
+	public VehiclePark testEmptyPark = new VehiclePark(totalParkingSlots);
+	public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots, true);
 
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		person = new Person(car, "Harshit");
 	}
 
 	@Test
-	public void returnObjectOfCar()
-	{
+	public void returnObjectOfCar() {
 		Car receivedCarObject = person.getCar();
 
-		assertThat(car,is(receivedCarObject));
+		assertThat(car, is(receivedCarObject));
 	}
 
 	@Test
 	public void shouldReturnDetailedStringWhenCalledToString() {
 		String returnedString = person.toString();
 
-		assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}}" ));
+		assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}}"));
 	}
 
 	// TODO: 28/07/22 uncomment the test when the parkVehicle is ready

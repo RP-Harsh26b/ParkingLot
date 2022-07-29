@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class ParkingManagement {
 
 	VehiclePark vehiclePark = new VehiclePark(10);
+
 	public static void main(String[] args) throws Person.NoEmptyParkingSlotFoundException {
 		ParkingManagement parkingManagement = new ParkingManagement();
 		System.out.println("\nWelcome to Parking Management System!!\n");
@@ -18,18 +19,16 @@ public class ParkingManagement {
 		System.out.print("Enter the number of vehicle : ");
 		String vehicleNumber = scanner.nextLine();
 		Car car = new Car(vehicleNumber);
-		Person person = new Person(car, name );
-
+		Person person = new Person(car, name);
 
 		// TODO: 28/07/22 Uncomment the method when parkVehicle method is ready
 
-		try{
+		try {
 			ParkingSlot parkedSlot = person.parkVehicle(parkingManagement.vehiclePark);
-			System.out.format("Vehicle Parked!\nParking Slot Details:"+parkedSlot);
-		}catch (Person.NoEmptyParkingSlotFoundException noEmptyParkingSlotFoundException){
+			System.out.format("Vehicle Parked!\nParking Slot Details:" + parkedSlot);
+		} catch (Person.NoEmptyParkingSlotFoundException noEmptyParkingSlotFoundException) {
 			System.out.println("At the moment all parking slots are full.\nWe are sorry for the unavailability in the service.");
-		}
-		finally {
+		} finally {
 			System.out.println("Exiting from the system.");
 		}
 	}
