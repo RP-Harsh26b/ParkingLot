@@ -4,7 +4,7 @@ public class Car {
 
 	private final String number;
 
-	public Car(String number) {
+	public Car(final String number) {
 		this.number = number;
 	}
 

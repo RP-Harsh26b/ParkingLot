@@ -17,11 +17,10 @@ public class CarTest {
 
 	@Test
 	public void shouldReturnDetailsOfCar() {
-		String receivedCarDetails = car.toString();
+		final String receivedCarDetails = car.toString();
 
 		assertThat(receivedCarDetails, is("Car{" +
 			"carNumber='" + CAR_NUMBER + '\'' +
 			'}'));
 	}
-
 }
