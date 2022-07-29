@@ -18,7 +18,6 @@ public class PersonTest {
 	public VehiclePark testEmptyPark = new VehiclePark(totalParkingSlots);
 	public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots, true);
 
-
 	@Before
 	public void setUp() {
 		person = new Person(car, "Harshit");

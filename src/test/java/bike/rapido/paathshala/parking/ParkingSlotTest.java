@@ -14,14 +14,14 @@ import static org.junit.Assert.assertNull;
 public class ParkingSlotTest {
 	private final ParkingSlot emptyParkingSlot = new ParkingSlot();
 
-	private Car sampleCar = new Car("DL5CQ 0258");
+	private final Car sampleCar = new Car("DL5CQ 0258");
 	private Person samplePerson;
 	private ParkingSlot nonEmptyParkingSlot;
 
 	@Before
 	public void setUp() {
 		samplePerson = new Person(sampleCar, "Harshit");
-		nonEmptyParkingSlot = new ParkingSlot( sampleCar);
+		nonEmptyParkingSlot = new ParkingSlot(sampleCar);
 	}
 
 	@Test

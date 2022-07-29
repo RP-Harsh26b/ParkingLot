@@ -14,6 +14,7 @@ public class VehicleParkTest {
 	Car sampleCar = new Car("DL5CQ 0258");
 
 	public Person samplePerson = new Person(sampleCar, "Harshit");
+
 	@Before
 	public void setUp() {
 		emptyVehiclePark = new VehiclePark(TOTAL_PARKING_SLOTS);
