@@ -17,8 +17,7 @@ public class VehiclePark {
 		this.totalParkingSlots = totalEmptyParkingSlots;
 		parkingSlotList = new ArrayList<>(Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
 	}
-
-	// For test use only
+	
 	public VehiclePark(int totalParkingSlots, Boolean isFull) {
 		if (!isFull) new VehiclePark(totalParkingSlots);
 		else {
