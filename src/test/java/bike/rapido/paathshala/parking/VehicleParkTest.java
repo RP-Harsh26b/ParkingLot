@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 public class VehicleParkTest {
 	public static final int TOTAL_PARKING_SLOTS = 100;
 	public VehiclePark emptyVehiclePark, fullVehiclePark;
+	Car sampleCar = new Car("DL5CQ 0258");
 
-	public Person samplePerson = new Person(new Car("DL5CQ 0258"), "Harshit");
-
+	public Person samplePerson = new Person(sampleCar, "Harshit");
 	@Before
 	public void setUp() {
 		emptyVehiclePark = new VehiclePark(TOTAL_PARKING_SLOTS);
@@ -45,17 +45,17 @@ public class VehicleParkTest {
 	@Test
 	public void shouldReturnFullParkingSlotWhenMarkParkedIsCalled() {
 		ParkingSlot receivedEmptyParkingSlot = emptyVehiclePark.getEmptyParkingSlot();
-		ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(receivedEmptyParkingSlot, samplePerson);
+		ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(receivedEmptyParkingSlot, samplePerson.getCar());
 
 		assertThat(receivedFullParkingSlot.getIsEmpty(), is(false));
-		assertNotNull(receivedFullParkingSlot.getPerson());
+		assertNotNull(receivedFullParkingSlot.getCar());
 	}
 
 	// TODO: 29/07/22 should change to shouldThrowException when provided slot is not present in car park
 	@Test
 	public void shouldReturnNullWhenProvidedParkingSlotIsNotFound() {
-		ParkingSlot invalidParkingSlot = new ParkingSlot(200, false, samplePerson);
-		ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(invalidParkingSlot, samplePerson);
+		ParkingSlot invalidParkingSlot = new ParkingSlot(200, false, sampleCar);
+		ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(invalidParkingSlot, samplePerson.getCar());
 
 		assertNull(receivedFullParkingSlot);
 	}

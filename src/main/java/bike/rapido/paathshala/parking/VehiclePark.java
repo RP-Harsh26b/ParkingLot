@@ -9,9 +9,10 @@ import java.util.Objects;
 
 public class VehiclePark {
 
-	private final Person testPerson = new Person(new Car("DL5CQ 0258"), "Harshit");
+	private final Car testCar = new Car("DL5CQ 0258");
+	private final Person testPerson = new Person(testCar, "Harshit");
 	private final ParkingSlot emptyParkingSlotObject = new ParkingSlot(true, null);
-	private final ParkingSlot fullParkingSlotObject = new ParkingSlot(false, testPerson);
+	private final ParkingSlot fullParkingSlotObject = new ParkingSlot(false,testCar);
 	private Integer totalParkingSlots;
 	private ArrayList<ParkingSlot> parkingSlotList;
 
@@ -41,11 +42,11 @@ public class VehiclePark {
 
 	}
 
-	public ParkingSlot markParked(ParkingSlot receivedEmptyParkingSlot, Person person) {
+	public ParkingSlot markParked(ParkingSlot receivedEmptyParkingSlot, Car car) {
 		for (ParkingSlot slot : parkingSlotList) {
 			if (Objects.equals(slot, receivedEmptyParkingSlot) && slot.getIsEmpty()) {
 				slot.setIsEmpty(false);
-				slot.setPerson(person);
+				slot.setCar(car);
 				return slot;
 			}
 		}

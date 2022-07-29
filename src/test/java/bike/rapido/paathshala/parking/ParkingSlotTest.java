@@ -13,13 +13,15 @@ import static org.junit.Assert.assertNull;
 
 public class ParkingSlotTest {
 	private final ParkingSlot emptyParkingSlot = new ParkingSlot(true, null);
+
+	private Car sampleCar = new Car("DL5CQ 0258");
 	private Person samplePerson;
 	private ParkingSlot nonEmptyParkingSlot;
 
 	@Before
 	public void setUp() {
-		samplePerson = new Person(new Car("DL5CQ 0258"), "Harshit");
-		nonEmptyParkingSlot = new ParkingSlot(false, samplePerson);
+		samplePerson = new Person(sampleCar, "Harshit");
+		nonEmptyParkingSlot = new ParkingSlot(false, sampleCar);
 	}
 
 	@Test
@@ -37,23 +39,26 @@ public class ParkingSlotTest {
 	}
 
 	@Test
-	public void shouldReturnPersonIfNotEmpty() {
-		Person returnedPerson = nonEmptyParkingSlot.getPerson();
+	public void shouldReturnCarIfNotEmpty() {
+		Car returnedCar = nonEmptyParkingSlot.getCar();
 
-		assertThat(returnedPerson, is(samplePerson));
+		assertThat(returnedCar, is(sampleCar));
 	}
 
 	@Test
 	public void shouldReturnNullIfEmpty() {
-		Person returnedPerson = emptyParkingSlot.getPerson();
+		Car returnedCar = emptyParkingSlot.getCar();
 
-		assertNull(returnedPerson);
+		assertNull(returnedCar);
 	}
 
 	@Test
 	public void shouldReturnDetailedStringOfParkingSlot() {
-		String receivedString = nonEmptyParkingSlot.toString();
-		String expectedString = "ParkingSlot{id=6, isEmpty=false, person=Person{car=Car{carNumber='DL5CQ 0258'}}}";
+
+		ParkingSlot testFullParkingSlot = new ParkingSlot(100,false, sampleCar);
+
+		String receivedString = testFullParkingSlot.toString();
+		String expectedString = "ParkingSlot{id=100, isEmpty=false, car=Car{carNumber='DL5CQ 0258'}}";
 
 		assertThat(receivedString, is(expectedString));
 	}

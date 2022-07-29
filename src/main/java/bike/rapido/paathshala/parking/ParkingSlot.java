@@ -1,6 +1,7 @@
 package bike.rapido.paathshala.parking;
 
 import bike.rapido.paathshala.Person;
+import bike.rapido.paathshala.vehicle.Car;
 
 public class ParkingSlot {
 
@@ -8,21 +9,29 @@ public class ParkingSlot {
 
 	private final Integer id;
 	private Boolean isEmpty;
-	private Person person = null;
+	private Car car = null;
 
-	public ParkingSlot(boolean isEmpty, Person person) {
+	public ParkingSlot(boolean isEmpty, Car car) {
 
 		this.id = getIdCount();
 		incrementIdCount();
 		this.isEmpty = isEmpty;
-		this.person = person;
+		this.car = car;
 	}
 
-	public ParkingSlot(Integer id, boolean isEmpty, Person person) {
+	public ParkingSlot(Integer id, boolean isEmpty, Car car) {
 
 		this.id = id;
 		this.isEmpty = isEmpty;
-		this.person = person;
+		this.car = car;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
 	public static Integer getIdCount() {
@@ -49,21 +58,13 @@ public class ParkingSlot {
 		isEmpty = empty;
 	}
 
-	public Person getPerson() {
-		if (!isEmpty) return person;
-		else return null;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
 
 	@Override
 	public String toString() {
 		return "ParkingSlot{" +
 			"id=" + id +
 			", isEmpty=" + isEmpty +
-			", person=" + person +
+			", car=" + car +
 			'}';
 	}
 }

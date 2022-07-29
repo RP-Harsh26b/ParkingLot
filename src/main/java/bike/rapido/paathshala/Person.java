@@ -31,7 +31,7 @@ public class Person {
 		ParkingSlot emptyParkingSlot = vehiclePark.getEmptyParkingSlot();
 		ParkingSlot filledParkingSlot;
 		if (emptyParkingSlot != null) {
-			filledParkingSlot = vehiclePark.markParked(emptyParkingSlot, this);
+			filledParkingSlot = vehiclePark.markParked(emptyParkingSlot, this.getCar());
 		} else {
 			throw new NoEmptyParkingSlotFoundException("No Empty Parking Slot Found");
 		}

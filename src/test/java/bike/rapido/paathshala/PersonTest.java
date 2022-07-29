@@ -35,7 +35,7 @@ public class PersonTest {
 	public void shouldReturnDetailedStringWhenCalledToString() {
 		String returnedString = person.toString();
 
-		assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}}"));
+		assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}, name='Harshit'}"));
 	}
 
 	// TODO: 28/07/22 uncomment the test when the parkVehicle is ready

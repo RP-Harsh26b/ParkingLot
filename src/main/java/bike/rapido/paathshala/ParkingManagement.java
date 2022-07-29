@@ -10,7 +10,7 @@ public class ParkingManagement {
 
 	VehiclePark vehiclePark = new VehiclePark(10);
 
-	public static void main(String[] args) throws Person.NoEmptyParkingSlotFoundException {
+	public static void main(String[] args)  {
 		ParkingManagement parkingManagement = new ParkingManagement();
 		System.out.println("\nWelcome to Parking Management System!!\n");
 		System.out.println("Enter your name.");
