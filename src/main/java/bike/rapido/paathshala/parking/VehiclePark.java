@@ -1,6 +1,5 @@
 package bike.rapido.paathshala.parking;
 
-import bike.rapido.paathshala.Person;
 import bike.rapido.paathshala.vehicle.Car;
 
 import java.util.ArrayList;
@@ -9,77 +8,69 @@ import java.util.Objects;
 
 public class VehiclePark {
 
-    private final Car testCar = new Car("DL5CQ 0258");
-    private final Person testPerson = new Person(testCar, "Harshit");
-    private final ParkingSlot emptyParkingSlotObject = new ParkingSlot();
-    private final ParkingSlot fullParkingSlotObject = new ParkingSlot(testCar);
-    private Integer totalParkingSlots;
-    private ArrayList<ParkingSlot> parkingSlotList;
+	private final Integer totalParkingSlots;
+	private final ArrayList<ParkingSlot> parkingSlotList;
 
-    public VehiclePark(int totalEmptyParkingSlots) {
-        this.totalParkingSlots = totalEmptyParkingSlots;
-        parkingSlotList = new ArrayList<ParkingSlot>(Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
-    }
+	public VehiclePark(final int totalEmptyParkingSlots) {
+		this.totalParkingSlots = totalEmptyParkingSlots;
+		final ParkingSlot emptyParkingSlotObject = new ParkingSlot();
+		parkingSlotList = new ArrayList<ParkingSlot>(
+			Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
+	}
 
+	public int getTotalParkingSlotsCount() {
+		return totalParkingSlots;
+	}
 
-    // For test use only
-    public VehiclePark(int totalParkingSlots, Boolean isFull) {
-        if (!isFull) new VehiclePark(totalParkingSlots);
-        else {
-            this.totalParkingSlots = totalParkingSlots;
-            parkingSlotList = new ArrayList<ParkingSlot>(Collections.nCopies(totalParkingSlots, fullParkingSlotObject));
-        }
-    }
+	public ParkingSlot getEmptyParkingSlot() {
 
-    public int getTotalParkingSlotsCount() {
-        return totalParkingSlots;
-    }
+		for (final ParkingSlot slot : parkingSlotList) {
+			if (slot.getIsEmpty())
+				return slot;
+		}
+		return null;
+	}
 
-    public ParkingSlot getEmptyParkingSlot() {
+	public ArrayList<ParkingSlot> getParkingSlotList() {
+		return parkingSlotList;
+	}
 
-        for (ParkingSlot slot : parkingSlotList) {
-            if (slot.getIsEmpty()) return slot;
-        }
-        return null;
+	public ParkingSlot getParkingSlotWithVehicle(final Car car) {
 
-    }
+		for (final ParkingSlot slot : parkingSlotList) {
+			if ((slot.getCar() != null) && (slot.getCar().equals(car))) {
+				return slot;
+			}
+		}
+		return null;
 
-    public ParkingSlot getParkingSlotWithVehicle(Car car) {
+	}
 
-        for (ParkingSlot slot : parkingSlotList) {
-            if ((slot.getCar() != null) && (slot.getCar().equals(car))) {
-                return slot;
-            }
-        }
-        return null;
+	public ParkingSlot markParked(final ParkingSlot emptyParkingSlot, final Car car) {
+		for (final ParkingSlot slot : parkingSlotList) {
+			if (Objects.equals(slot, emptyParkingSlot) && slot.getIsEmpty()) {
+				slot.setCar(car);
+				return slot;
+			}
+		}
+		return null;
+	}
 
-    }
+	public ParkingSlot markUnParked(final ParkingSlot fullParkingSlot) {
+		for (final ParkingSlot slot : parkingSlotList) {
+			if (Objects.equals(slot, fullParkingSlot)) {
+				slot.setCar(null);
+				return slot;
+			}
+		}
+		return null;
+	}
 
-    public ParkingSlot markParked(ParkingSlot emptyParkingSlot, Car car) {
-        for (ParkingSlot slot : parkingSlotList) {
-            if (Objects.equals(slot, emptyParkingSlot) && slot.getIsEmpty()) {
-                slot.setCar(car);
-                return slot;
-            }
-        }
-        return null;
-    }
-
-    public ParkingSlot markUnParked(ParkingSlot fullParkingSlot) {
-        for (ParkingSlot slot : parkingSlotList) {
-            if (Objects.equals(slot, fullParkingSlot)) {
-                slot.setCar(null);
-                return slot;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return "VehiclePark{" +
-                ", totalParkingSlots=" + totalParkingSlots +
-                ", parkingSlotList=" + parkingSlotList +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "VehiclePark{" +
+			", totalParkingSlots=" + totalParkingSlots +
+			", parkingSlotList=" + parkingSlotList +
+			'}';
+	}
 }
