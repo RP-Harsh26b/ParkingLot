@@ -9,50 +9,56 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class PersonTest {
 
-	public final Car car = new Car("DL5CQ 0258");
-	public final int totalParkingSlots = 10;
-	public Person person;
-	public VehiclePark testEmptyPark = new VehiclePark(totalParkingSlots);
-	public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots, true);
+    public final Car car = new Car("DL5CQ 0258");
+    public final int totalParkingSlots = 10;
+    public Person person;
+    public VehiclePark testVehiclePark = new VehiclePark(totalParkingSlots);
+    public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots, true);
 
 
-	@Before
-	public void setUp() {
-		person = new Person(car, "Harshit");
-	}
+    @Before
+    public void setUp() {
+        person = new Person(car, "Harshit");
+    }
 
-	@Test
-	public void returnObjectOfCar() {
-		Car receivedCarObject = person.getCar();
+    @Test
+    public void returnObjectOfCar() {
+        Car receivedCarObject = person.getCar();
 
-		assertThat(car, is(receivedCarObject));
-	}
+        assertThat(car, is(receivedCarObject));
+    }
 
-	@Test
-	public void shouldReturnDetailedStringWhenCalledToString() {
-		String returnedString = person.toString();
+    @Test
+    public void shouldReturnDetailedStringWhenCalledToString() {
+        String returnedString = person.toString();
 
-		assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}, name='Harshit'}"));
-	}
+        assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}, name='Harshit'}"));
+    }
 
-	// TODO: 28/07/22 uncomment the test when the parkVehicle is ready
-	@Test
-	public void parkVehicleShouldReturnBooleanWhenEmptySlotIsPresent() throws Person.NoEmptyParkingSlotFoundException {
+    // TODO: 28/07/22 uncomment the test when the parkVehicle is ready
+    @Test
+    public void parkVehicleShouldReturnBooleanWhenEmptySlotIsPresent() throws Person.NoEmptyParkingSlotFoundException {
 
-		ParkingSlot receivedOutput = person.parkVehicle(testEmptyPark);
-		System.out.println(receivedOutput);
+        ParkingSlot receivedOutput = person.park(testVehiclePark);
 
-		assertNotNull(receivedOutput);
-	}
+        assertNotNull(receivedOutput);
+    }
 
-	@Test(expected = Person.NoEmptyParkingSlotFoundException.class)
-	public void parkVehicleShouldThrowExceptionWhenEmptySlotIsNotPresent() throws Person.NoEmptyParkingSlotFoundException {
-		ParkingSlot receivedOutput = person.parkVehicle(testFullVehiclePark);
-		System.out.println(receivedOutput);
-	}
+    @Test(expected = Person.NoEmptyParkingSlotFoundException.class)
+    public void parkVehicleShouldThrowExceptionWhenEmptySlotIsNotPresent() throws Person.NoEmptyParkingSlotFoundException {
+        ParkingSlot receivedOutput = person.park(testFullVehiclePark);
+    }
 
+    @Test
+    public void shouldChangeSlotToEmptyWhenUnparkCalled() throws Person.NoEmptyParkingSlotFoundException {
 
+        person.park(testVehiclePark);
+        ParkingSlot receivedParkingSlot = person.unpark(person, testVehiclePark);
+        assertThat(receivedParkingSlot.getIsEmpty(), is(Boolean.TRUE));
+        assertNull(receivedParkingSlot.getCar());
+    }
 }

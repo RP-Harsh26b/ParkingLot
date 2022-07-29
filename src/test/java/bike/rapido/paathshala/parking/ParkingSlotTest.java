@@ -12,54 +12,53 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNull;
 
 public class ParkingSlotTest {
-	private final ParkingSlot emptyParkingSlot = new ParkingSlot();
+    private final ParkingSlot emptyParkingSlot = new ParkingSlot();
 
-	private Car sampleCar = new Car("DL5CQ 0258");
-	private Person samplePerson;
-	private ParkingSlot nonEmptyParkingSlot;
+    private final Car sampleCar = new Car("DL5CQ 0258");
+    private Person samplePerson;
+    private ParkingSlot nonEmptyParkingSlot;
 
-	@Before
-	public void setUp() {
-		samplePerson = new Person(sampleCar, "Harshit");
-		nonEmptyParkingSlot = new ParkingSlot( sampleCar);
-	}
+    @Before
+    public void setUp() {
+        samplePerson = new Person(sampleCar, "Harshit");
+        nonEmptyParkingSlot = new ParkingSlot(sampleCar);
+    }
 
-	@Test
-	public void shouldReturnId() {
-		int returnedId = nonEmptyParkingSlot.getId();
+    @Test
+    public void shouldReturnId() {
+        int returnedId = nonEmptyParkingSlot.getId();
 
-		assertThat(returnedId, CoreMatchers.instanceOf(Integer.class));
-	}
+        assertThat(returnedId, CoreMatchers.instanceOf(Integer.class));
+    }
 
-	@Test
-	public void shouldReturnIsEmpty() {
-		boolean returnedIsEmpty = nonEmptyParkingSlot.getIsEmpty();
+    @Test
+    public void shouldReturnIsEmpty() {
+        boolean returnedIsEmpty = nonEmptyParkingSlot.getIsEmpty();
 
-		assertThat(returnedIsEmpty, instanceOf(Boolean.class));
-	}
+        assertThat(returnedIsEmpty, instanceOf(Boolean.class));
+    }
 
-	@Test
-	public void shouldReturnCarIfNotEmpty() {
-		Car returnedCar = nonEmptyParkingSlot.getCar();
+    @Test
+    public void shouldReturnCarIfNotEmpty() {
+        Car returnedCar = nonEmptyParkingSlot.getCar();
 
-		assertThat(returnedCar, is(sampleCar));
-	}
+        assertThat(returnedCar, is(sampleCar));
+    }
 
-	@Test
-	public void shouldReturnNullIfEmpty() {
-		Car returnedCar = emptyParkingSlot.getCar();
+    @Test
+    public void shouldReturnNullIfEmpty() {
+        Car returnedCar = emptyParkingSlot.getCar();
+        assertNull(returnedCar);
+    }
 
-		assertNull(returnedCar);
-	}
+    @Test
+    public void shouldReturnDetailedStringOfParkingSlot() {
 
-	@Test
-	public void shouldReturnDetailedStringOfParkingSlot() {
+        ParkingSlot testFullParkingSlot = new ParkingSlot(100, sampleCar);
 
-		ParkingSlot testFullParkingSlot = new ParkingSlot(100, sampleCar);
+        String receivedString = testFullParkingSlot.toString();
+        String expectedString = "ParkingSlot{id=100, isEmpty=false, car=Car{carNumber='DL5CQ 0258'}}";
 
-		String receivedString = testFullParkingSlot.toString();
-		String expectedString = "ParkingSlot{id=100, isEmpty=false, car=Car{carNumber='DL5CQ 0258'}}";
-
-		assertThat(receivedString, is(expectedString));
-	}
+        assertThat(receivedString, is(expectedString));
+    }
 }

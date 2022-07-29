@@ -1,69 +1,67 @@
 package bike.rapido.paathshala.parking;
 
-import bike.rapido.paathshala.Person;
 import bike.rapido.paathshala.vehicle.Car;
 
 public class ParkingSlot {
 
-	private static Integer idCount = 1;
+    private static Integer idCount = 1;
 
-	private Integer id = null;
-	private Car car = null;
+    private final Integer id;
+    private Car car = null;
 
-	public ParkingSlot( Car car) {
+    public ParkingSlot(Car car) {
+        this.id = getIdCount();
+        incrementIdCount();
+        this.car = car;
+    }
 
-		this.id = getIdCount();
-		incrementIdCount();
-		this.car = car;
-	}
+    public ParkingSlot(Integer id, Car car) {
 
-	public ParkingSlot(Integer id, Car car) {
+        this.id = id;
+        this.car = car;
+    }
 
-		this.id = id;
-		this.car = car;
-	}
+    public ParkingSlot() {
+        this.id = getIdCount();
+        incrementIdCount();
+        this.car = null;
+    }
 
-	public ParkingSlot() {
-		this.car = null;
-	}
+    public static Integer getIdCount() {
+        return idCount;
+    }
 
-	public Car getCar() {
-		return car;
-	}
+    public static void setIdCount(Integer idCount) {
+        ParkingSlot.idCount = idCount;
+    }
 
-	public void setCar(Car car) {
-		this.car = car;
-	}
+    public Car getCar() {
+        return car;
+    }
 
-	public static Integer getIdCount() {
-		return idCount;
-	}
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
-	public static void setIdCount(Integer idCount) {
-		ParkingSlot.idCount = idCount;
-	}
+    private void incrementIdCount() {
+        setIdCount(getIdCount() + 1);
+    }
 
-	private void incrementIdCount() {
-		setIdCount(getId() + 1);
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
-
-	public Boolean getIsEmpty() {
-		if(this.car!=null) return false;
-		else return true;
-	}
+    public Boolean getIsEmpty() {
+        return this.car == null;
+    }
 
 
-
-	@Override
-	public String toString() {
-		return "ParkingSlot{" +
-			"id=" + id +
-			", isEmpty=" + getIsEmpty() +
-			", car=" + car +
-			'}';
-	}
+    @Override
+    public String toString() {
+        return "ParkingSlot{" +
+                "id=" + id +
+                ", isEmpty=" + getIsEmpty() +
+                ", car=" + car +
+                '}';
+    }
 }
