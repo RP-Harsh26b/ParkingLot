@@ -13,58 +13,65 @@ import static org.junit.Assert.assertNull;
 
 public class PersonTest {
 
-	public final Car car = new Car("DL5CQ 0258");
-	public final int totalParkingSlots = 10;
-	public Person person;
-	public VehiclePark testVehiclePark = new VehiclePark(totalParkingSlots);
-	public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots);
+    public final Car car = new Car("DL5CQ 0258");
+    public final int totalParkingSlots = 10;
+    public Person person;
+    public VehiclePark testVehiclePark = new VehiclePark(totalParkingSlots);
+    public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots);
 
-	@Before
-	public void setUp() {
-		person = new Person(car, "Harshit");
-		final String tempNumber = "DL5CQ 025";
-		final int index = 0;
-		for (final ParkingSlot parkingSlot : testFullVehiclePark.getParkingSlotList()) {
-			parkingSlot.setCar(new Car(tempNumber + index));
-		}
-	}
+    @Before
+    public void setUp() {
+        person = new Person(car, "Harshit");
 
-	@Test
-	public void returnObjectOfCar() {
-		final Car receivedCarObject = person.getCar();
+    }
 
-		assertThat(car, is(receivedCarObject));
-	}
+    @Test
+    public void shouldReturnCarPersonHas() {
+        //add setup here for car and call constructor
+        final Car receivedCarObject = person.getCar();
 
-	@Test
-	public void shouldReturnDetailedStringWhenCalledToString() {
-		final String returnedString = person.toString();
+        assertThat(car, is(receivedCarObject));
+    }
 
-		assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}, name='Harshit'}"));
-	}
+    @Test
+    public void shouldReturnDetailedStringWhenCalledToString() {
+        final String returnedString = person.toString();
+        //todo justify use of test
+        assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}, name='Harshit'}"));
+    }
 
-	// TODO: 28/07/22 uncomment the test when the parkVehicle is ready
-	@Test
-	public void parkVehicleShouldReturnBooleanWhenEmptySlotIsPresent() throws Person.NoEmptyParkingSlotFoundException {
 
-		final ParkingSlot receivedOutput = person.park(testVehiclePark);
+    @Test
+    public void parkVehicleShouldReturnParkingSlotWhenEmptySlotIsPresent() throws Person.NoEmptyParkingSlotFoundException {
 
-		assertNotNull(receivedOutput);
-	}
+        final ParkingSlot receivedOutput = person.parkTheCar(testVehiclePark);
 
-	@Test(expected = Person.NoEmptyParkingSlotFoundException.class)
-	public void parkVehicleShouldThrowExceptionWhenEmptySlotIsNotPresent()
-		throws Person.NoEmptyParkingSlotFoundException {
-		System.out.println(testFullVehiclePark);
-		final ParkingSlot receivedOutput = person.park(testFullVehiclePark);
-	}
+        assertNotNull(receivedOutput);
+    }
 
-	@Test
-	public void shouldChangeSlotToEmptyWhenUnparkCalled() throws Person.NoEmptyParkingSlotFoundException {
+    @Test(expected = Person.NoEmptyParkingSlotFoundException.class)
+    public void parkVehicleShouldThrowExceptionWhenEmptySlotIsNotPresent()
+            throws Person.NoEmptyParkingSlotFoundException {
 
-		person.park(testVehiclePark);
-		final ParkingSlot receivedParkingSlot = person.unpark(person, testVehiclePark);
-		assertThat(receivedParkingSlot.getIsEmpty(), is(Boolean.TRUE));
-		assertNull(receivedParkingSlot.getCar());
-	}
+        final String tempNumber = "DL5CQ 025";
+        final int index = 0;
+        for (final ParkingSlot parkingSlot : testFullVehiclePark.getParkingSlotList()) {
+            parkingSlot.setCar(new Car(tempNumber + index));
+        }
+
+        //todo catch exception thrown by park() in try block
+        person.parkTheCar(testFullVehiclePark);
+
+
+    }
+
+    @Test
+    public void shouldEmptySlotWhenCarIsUnparked() throws Person.NoEmptyParkingSlotFoundException {
+
+        person.parkTheCar(testVehiclePark);
+        final ParkingSlot receivedParkingSlot = person.unParkTheCar(testVehiclePark);
+
+        assertThat(receivedParkingSlot.getIsEmpty(), is(Boolean.TRUE));
+        assertNull(receivedParkingSlot.getCar());
+    }
 }
