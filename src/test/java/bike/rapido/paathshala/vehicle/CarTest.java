@@ -3,8 +3,7 @@ package bike.rapido.paathshala.vehicle;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class CarTest {
 	public static final String CAR_NUMBER = "DL5CQ 1234";
@@ -19,8 +18,6 @@ public class CarTest {
 	public void shouldReturnDetailsOfCar() {
 		final String receivedCarDetails = car.toString();
 
-		assertThat(receivedCarDetails, is("Car{" +
-			"carNumber='" + CAR_NUMBER + '\'' +
-			'}'));
+		assertTrue(receivedCarDetails.contains(CAR_NUMBER));
 	}
 }

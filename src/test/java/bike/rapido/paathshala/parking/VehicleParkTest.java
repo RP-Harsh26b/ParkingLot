@@ -1,6 +1,5 @@
 package bike.rapido.paathshala.parking;
 
-import bike.rapido.paathshala.Person;
 import bike.rapido.paathshala.vehicle.Car;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,68 +9,73 @@ import static org.junit.Assert.*;
 
 public class VehicleParkTest {
 	public static final int TOTAL_PARKING_SLOTS = 10;
-	public VehiclePark emptyVehiclePark, fullVehiclePark;
+	public VehiclePark vehicleParkArea;
 
 	Car sampleCar = new Car("DL5CQ 0258");
 
-	@Before
-	public void setUp() {
-		emptyVehiclePark = new VehiclePark(TOTAL_PARKING_SLOTS);
-		fullVehiclePark = new VehiclePark(TOTAL_PARKING_SLOTS);
+	public void fillAllParkingSlots() {
 		final String tempNumber = "DL5CQ 025";
 		final int index = 0;
-		for (final ParkingSlot parkingSlot : fullVehiclePark.getParkingSlotList()) {
+		for (final ParkingSlot parkingSlot : vehicleParkArea.getParkingSlotList()) {
 			parkingSlot.setCar(new Car(tempNumber + index));
 		}
 	}
 
-	@Test
-	public void shouldReturnTotalNumberOfSlotsInParkingArea() {
-		final int receivedOutput = emptyVehiclePark.getTotalParkingSlotsCount();
-
-		assertThat(receivedOutput, is(TOTAL_PARKING_SLOTS));
-
+	@Before
+	public void setUp() {
+		vehicleParkArea = new VehiclePark(TOTAL_PARKING_SLOTS);
 	}
 
 	@Test
-	public void shouldReturnEmptyParkingSlotWhenGetEmptyParkingSlotMethodCalledAndEmptyParkingSlotExist() {
-		final ParkingSlot receivedParkingSlot = emptyVehiclePark.getEmptyParkingSlot();
+	public void shouldReturnTotalNumberOfSlotsInParkingArea() {
+		final int receivedOutput = vehicleParkArea.getTotalParkingSlotsCount();
 
-		assertThat(receivedParkingSlot.getIsEmpty(), is(true));
+		assertThat(receivedOutput, is(TOTAL_PARKING_SLOTS));
+	}
+
+	@Test
+	public void shouldReturnEmptyParkingSlotWhenExist() {
+		final ParkingSlot receivedParkingSlot = vehicleParkArea.getEmptyParkingSlot();
+
+		assertNotNull(receivedParkingSlot);
+		assertTrue(receivedParkingSlot.getIsEmpty());
 	}
 
 	@Test
 	public void shouldReturnNullWhenEmptyParkingSlotDoesNotExist() {
-		final ParkingSlot receivedParkingSlot = fullVehiclePark.getEmptyParkingSlot();
+		fillAllParkingSlots();
+		final ParkingSlot receivedParkingSlot = vehicleParkArea.getEmptyParkingSlot();
 
 		assertNull(receivedParkingSlot);
 	}
 
 	@Test
-	public void shouldReturnFullParkingSlotWhenMarkParkedIsCalled() {
-		final ParkingSlot receivedEmptyParkingSlot = emptyVehiclePark.getEmptyParkingSlot();
-		final ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(receivedEmptyParkingSlot, sampleCar);
+	public void shouldReturnAFilledParkingSlotWhenMarkParked() {
+		final ParkingSlot receivedEmptyParkingSlot = vehicleParkArea.getEmptyParkingSlot();
+		final ParkingSlot receivedFilledParkingSlot = vehicleParkArea.markParked(receivedEmptyParkingSlot, sampleCar);
 
-		assertThat(receivedFullParkingSlot.getIsEmpty(), is(false));
-		assertNotNull(receivedFullParkingSlot.getCar());
+		assertFalse(receivedFilledParkingSlot.getIsEmpty());
+		assertNotNull(receivedFilledParkingSlot.getCar());
 	}
 
 	// TODO: 29/07/22 should change to shouldThrowException when provided slot is not present in car park
 	@Test
 	public void shouldReturnNullWhenProvidedParkingSlotIsNotFound() {
 		final ParkingSlot invalidParkingSlot = new ParkingSlot(200, sampleCar);
-		final ParkingSlot receivedFullParkingSlot = emptyVehiclePark.markParked(invalidParkingSlot, sampleCar);
+
+		final ParkingSlot receivedFullParkingSlot = vehicleParkArea.markParked(invalidParkingSlot, sampleCar);
 
 		assertNull(receivedFullParkingSlot);
 	}
 
 	@Test
-	public void shouldReturnEmptySlotWhenUnparkMethodIsCalledAndEnteredCarExist() throws Person.NoEmptyParkingSlotFoundException {
-		final ParkingSlot emptyParkingSlot = emptyVehiclePark.getEmptyParkingSlot();
-		emptyVehiclePark.markParked(emptyParkingSlot, sampleCar);
-		final ParkingSlot parkedParkingSlot = emptyVehiclePark.getParkingSlotWithVehicle(sampleCar);
-		final ParkingSlot returnedParkingSlot = emptyVehiclePark.markUnParked(parkedParkingSlot);
+	public void shouldReturnEmptySlotWhenCarUnParked() {
+		final ParkingSlot emptyParkingSlot = vehicleParkArea.getEmptyParkingSlot();
+		vehicleParkArea.markParked(emptyParkingSlot, sampleCar);
 
-		assertThat(returnedParkingSlot.getIsEmpty(), is(true));
+		final ParkingSlot parkedParkingSlot = vehicleParkArea.getParkingSlotWithVehicle(sampleCar);
+		final ParkingSlot returnedParkingSlot = vehicleParkArea.markUnParked(parkedParkingSlot);
+
+		assertTrue(returnedParkingSlot.getIsEmpty());
 	}
 }

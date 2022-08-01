@@ -14,7 +14,7 @@ public class VehiclePark {
 	public VehiclePark(final int totalEmptyParkingSlots) {
 		this.totalParkingSlots = totalEmptyParkingSlots;
 		final ParkingSlot emptyParkingSlotObject = new ParkingSlot();
-		parkingSlotList = new ArrayList<ParkingSlot>(
+		parkingSlotList = new ArrayList<>(
 			Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
 	}
 
