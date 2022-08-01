@@ -6,72 +6,62 @@ import bike.rapido.paathshala.vehicle.Car;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class PersonTest {
 
-    public final Car car = new Car("DL5CQ 0258");
-    public final int totalParkingSlots = 10;
-    public Person person;
-    public VehiclePark testVehiclePark = new VehiclePark(totalParkingSlots);
-    public VehiclePark testFullVehiclePark = new VehiclePark(totalParkingSlots);
+	public final Car car = new Car("DL5CQ 0258");
+	public final int totalParkingSlots = 10;
+	public Person person;
+	public VehiclePark vehicleParkArea;
 
-    @Before
-    public void setUp() {
-        person = new Person(car, "Harshit");
+	public void fillAllParkingSlots() {
+		final String tempNumber = "DL5CQ 025";
+		final int index = 0;
+		for (final ParkingSlot parkingSlot : vehicleParkArea.getParkingSlotList()) {
+			parkingSlot.setCar(new Car(tempNumber + index));
+		}
+	}
 
-    }
+	@Before
+	public void setUp() {
+		person = new Person(car, "Harshit");
+		vehicleParkArea = new VehiclePark(totalParkingSlots);
+	}
 
-    @Test
-    public void shouldReturnCarPersonHas() {
-        //add setup here for car and call constructor
-        final Car receivedCarObject = person.getCar();
+	@Test
+	public void shouldReturnDetailsOfThePerson() {
+		person = new Person(car, "Harshit");
 
-        assertThat(car, is(receivedCarObject));
-    }
+		final String returnedString = person.getDetails();
 
-    @Test
-    public void shouldReturnDetailedStringWhenCalledToString() {
-        final String returnedString = person.toString();
-        //todo justify use of test
-        assertThat(returnedString, is("Person{car=Car{carNumber='DL5CQ 0258'}, name='Harshit'}"));
-    }
+		assertTrue(returnedString.contains("carNumber='DL5CQ 0258'"));
+		assertTrue(returnedString.contains("name='Harshit'"));
+	}
 
+	@Test
+	public void shouldReturnParkingSlotWhenEmptySlotIsPresent() throws Person.NoEmptyParkingSlotFoundException {
 
-    @Test
-    public void parkVehicleShouldReturnParkingSlotWhenEmptySlotIsPresent() throws Person.NoEmptyParkingSlotFoundException {
+		final ParkingSlot receivedOutput = person.parkTheCar(vehicleParkArea);
 
-        final ParkingSlot receivedOutput = person.parkTheCar(testVehiclePark);
+		assertNotNull(receivedOutput);
+	}
 
-        assertNotNull(receivedOutput);
-    }
+	@Test(expected = Person.NoEmptyParkingSlotFoundException.class)
+	public void parkVehicleShouldThrowExceptionWhenEmptySlotIsNotPresent()
+		throws Person.NoEmptyParkingSlotFoundException {
+		fillAllParkingSlots();
+		//todo catch exception thrown by park() in try block
+		person.parkTheCar(vehicleParkArea);
+	}
 
-    @Test(expected = Person.NoEmptyParkingSlotFoundException.class)
-    public void parkVehicleShouldThrowExceptionWhenEmptySlotIsNotPresent()
-            throws Person.NoEmptyParkingSlotFoundException {
+	@Test
+	public void shouldEmptySlotWhenCarIsUnParked() throws Person.NoEmptyParkingSlotFoundException {
 
-        final String tempNumber = "DL5CQ 025";
-        final int index = 0;
-        for (final ParkingSlot parkingSlot : testFullVehiclePark.getParkingSlotList()) {
-            parkingSlot.setCar(new Car(tempNumber + index));
-        }
+		person.parkTheCar(vehicleParkArea);
+		final ParkingSlot receivedParkingSlot = person.unParkTheCar(vehicleParkArea);
 
-        //todo catch exception thrown by park() in try block
-        person.parkTheCar(testFullVehiclePark);
-
-
-    }
-
-    @Test
-    public void shouldEmptySlotWhenCarIsUnparked() throws Person.NoEmptyParkingSlotFoundException {
-
-        person.parkTheCar(testVehiclePark);
-        final ParkingSlot receivedParkingSlot = person.unParkTheCar(testVehiclePark);
-
-        assertThat(receivedParkingSlot.getIsEmpty(), is(Boolean.TRUE));
-        assertNull(receivedParkingSlot.getCar());
-    }
+		assertTrue(receivedParkingSlot.getIsEmpty());
+		assertNull(receivedParkingSlot.getCar());
+	}
 }

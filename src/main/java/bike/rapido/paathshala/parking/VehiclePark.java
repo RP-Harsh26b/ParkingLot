@@ -14,8 +14,8 @@ public class VehiclePark {
 	public VehiclePark(final int totalEmptyParkingSlots) {
 		this.totalParkingSlots = totalEmptyParkingSlots;
 		final ParkingSlot emptyParkingSlotObject = new ParkingSlot();
-		parkingSlotList = new ArrayList<ParkingSlot>(
-			Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
+		parkingSlotList = new ArrayList<>(
+				Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
 	}
 
 	public int getTotalParkingSlotsCount() {
@@ -69,8 +69,17 @@ public class VehiclePark {
 	@Override
 	public String toString() {
 		return "VehiclePark{" +
-			", totalParkingSlots=" + totalParkingSlots +
-			", parkingSlotList=" + parkingSlotList +
-			'}';
+				", totalParkingSlots=" + totalParkingSlots +
+				", parkingSlotList=" + parkingSlotList +
+				'}';
+	}
+
+	public Boolean getIsFull() {
+		for (ParkingSlot slot : parkingSlotList) {
+			if (slot.getIsEmpty()) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

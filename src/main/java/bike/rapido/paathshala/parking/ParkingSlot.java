@@ -7,7 +7,7 @@ public class ParkingSlot {
 	private static Integer idCount = 1;
 
 	private final Integer id;
-	private Car car = null;
+	private Car car;
 
 	public ParkingSlot(final Car car) {
 		this.id = getIdCount();

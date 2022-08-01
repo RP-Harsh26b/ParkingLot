@@ -9,53 +9,56 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class ParkingSlotTest {
-	private final ParkingSlot emptyParkingSlot = new ParkingSlot();
-
 	private final Car sampleCar = new Car("DL5CQ 0258");
-	private ParkingSlot nonEmptyParkingSlot;
+	private ParkingSlot parkingSlot;
 
 	@Before
 	public void setUp() {
-		nonEmptyParkingSlot = new ParkingSlot(sampleCar);
+		parkingSlot = new ParkingSlot(sampleCar);
 	}
 
 	@Test
 	public void shouldReturnId() {
-		final int returnedId = nonEmptyParkingSlot.getId();
+		final int returnedId = parkingSlot.getId();
 
 		assertThat(returnedId, CoreMatchers.instanceOf(Integer.class));
 	}
 
 	@Test
 	public void shouldReturnIsEmpty() {
-		final boolean returnedIsEmpty = nonEmptyParkingSlot.getIsEmpty();
+		final boolean returnedIsEmpty = parkingSlot.getIsEmpty();
 
 		assertThat(returnedIsEmpty, instanceOf(Boolean.class));
 	}
 
 	@Test
 	public void shouldReturnCarIfNotEmpty() {
-		final Car returnedCar = nonEmptyParkingSlot.getCar();
+		final Car returnedCar = parkingSlot.getCar();
 
 		assertThat(returnedCar, is(sampleCar));
 	}
 
 	@Test
 	public void shouldReturnNullIfEmpty() {
+		final ParkingSlot emptyParkingSlot = new ParkingSlot();
+
 		final Car returnedCar = emptyParkingSlot.getCar();
+
 		assertNull(returnedCar);
 	}
 
 	@Test
 	public void shouldReturnDetailedStringOfParkingSlot() {
 
-		final ParkingSlot testFullParkingSlot = new ParkingSlot(100, sampleCar);
+		final ParkingSlot parkingSlot = new ParkingSlot(100, sampleCar);
 
-		final String receivedString = testFullParkingSlot.toString();
-		final String expectedString = "ParkingSlot{id=100, isEmpty=false, car=Car{carNumber='DL5CQ 0258'}}";
+		final String receivedString = parkingSlot.toString();
 
-		assertThat(receivedString, is(expectedString));
+		assertTrue(receivedString.contains("carNumber='DL5CQ 0258'"));
+		assertTrue(receivedString.contains("id=100"));
+		assertTrue(receivedString.contains("isEmpty=false"));
 	}
 }
