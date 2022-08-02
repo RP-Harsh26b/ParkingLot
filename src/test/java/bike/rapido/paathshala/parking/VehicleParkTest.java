@@ -121,4 +121,17 @@ public class VehicleParkTest {
 		assertTrue(isCarParked);
 		assertTrue(securityPersonal.isParkingLotFull());
 	}
+
+	@Test
+	public void shouldLetOwnerKnowWhenParkingSlotAreNotFull() {
+		final Owner owner = new Owner();
+
+		vehicleParkArea.subscribeForNotification(owner);
+		final ParkingSlot parkingSlot = vehicleParkArea.markUnParked(vehicleParkArea.getEmptyParkingSlot());
+
+		final boolean isCarParked = parkingSlot.getIsEmpty();
+
+		assertTrue(isCarParked);
+		assertThat(owner.isParkingLotFull(), is(false));
+	}
 }

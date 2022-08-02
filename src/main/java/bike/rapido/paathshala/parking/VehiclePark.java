@@ -55,7 +55,7 @@ public class VehiclePark {
 				slot.setCar(car);
 				if (getIsFull()) {
 					for (final ParkingLotObserver parkingLotObserver : parkingLotObservers) {
-						parkingLotObserver.notifyAllSubscribers();
+						parkingLotObserver.notifySubscriberParkingLotFull();
 					}
 				}
 				return slot;
@@ -68,6 +68,11 @@ public class VehiclePark {
 		for (final ParkingSlot slot : parkingSlotList) {
 			if (Objects.equals(slot, fullParkingSlot)) {
 				slot.setCar(null);
+				if (!getIsFull()) {
+					for (final ParkingLotObserver parkingLotObserver : parkingLotObservers) {
+						parkingLotObserver.notifySubscriberParkingLotNotFull();
+					}
+				}
 				return slot;
 			}
 		}
