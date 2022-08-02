@@ -1,5 +1,7 @@
 package bike.rapido.paathshala.parking;
 
 public interface ParkingLotObserver {
-	void notifyAllSubscribers();
+	void notifySubscriberParkingLotFull();
+
+	void notifySubscriberParkingLotNotFull();
 }
