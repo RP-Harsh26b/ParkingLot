@@ -1,21 +1,35 @@
 package bike.rapido.paathshala.parking;
 
+import bike.rapido.paathshala.notification.Owner;
+import bike.rapido.paathshala.notification.SecurityPersonal;
 import bike.rapido.paathshala.vehicle.Car;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 
 public class VehiclePark {
 
     private final Integer totalParkingSlots;
-    private final ArrayList<ParkingSlot> parkingSlotList;
+    private final Owner owner;
 
-    public VehiclePark(final int totalEmptyParkingSlots) {
+    private final SecurityPersonal securityPersonal;
+    private ArrayList<ParkingSlot> parkingSlotList = new ArrayList<>();
+    private Integer parkedCarCount = 0;
+
+
+    public VehiclePark(final int totalEmptyParkingSlots, Owner owner) {
+        this(totalEmptyParkingSlots, owner, new SecurityPersonal());
+    }
+
+    public VehiclePark(final int totalEmptyParkingSlots, Owner owner, SecurityPersonal securityPersonal) {
         this.totalParkingSlots = totalEmptyParkingSlots;
-        final ParkingSlot emptyParkingSlotObject = new ParkingSlot();
-        parkingSlotList = new ArrayList<>(
-                Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
+        this.owner = owner;
+        this.securityPersonal = securityPersonal;
+        this.parkingSlotList = new ArrayList<>();
+        for (int index = 0; index < totalEmptyParkingSlots; index++) {
+            parkingSlotList.add(new ParkingSlot());
+        }
+
     }
 
     public int getTotalParkingSlotsCount() {
@@ -24,11 +38,23 @@ public class VehiclePark {
 
     public ParkingSlot getEmptyParkingSlot() {
 
-        for (final ParkingSlot slot : parkingSlotList) {
-            if (slot.getIsEmpty())
+        for (ParkingSlot slot : parkingSlotList) {
+            if (slot.getIsEmpty()) {
                 return slot;
+            }
         }
         return null;
+    }
+
+    public Integer getParkedCarCount() {
+        return parkedCarCount;
+    }
+
+    public void setParkedCarCount(Integer parkedCarCount) {
+        this.parkedCarCount = parkedCarCount;
+        if (Objects.equals(parkedCarCount, totalParkingSlots)) {
+            notifyFull();
+        }
     }
 
     public ArrayList<ParkingSlot> getParkingSlotList() {
@@ -46,10 +72,11 @@ public class VehiclePark {
 
     }
 
-    public ParkingSlot markParked(final ParkingSlot emptyParkingSlot, final Car car) {
-        for (final ParkingSlot slot : parkingSlotList) {
-            if (Objects.equals(slot, emptyParkingSlot) && slot.getIsEmpty()) {
+    public ParkingSlot markParked(ParkingSlot emptyParkingSlot, final Car car) {
+        for (ParkingSlot slot : parkingSlotList) {
+            if (slot.getId().equals(emptyParkingSlot.getId()) && slot.getIsEmpty()) {
                 slot.setCar(car);
+                setParkedCarCount(getParkedCarCount() + 1);
                 return slot;
             }
         }
@@ -60,6 +87,7 @@ public class VehiclePark {
         for (final ParkingSlot slot : parkingSlotList) {
             if (Objects.equals(slot, fullParkingSlot)) {
                 slot.setCar(null);
+                setParkedCarCount(getParkedCarCount() - 1);
                 return slot;
             }
         }
@@ -69,19 +97,18 @@ public class VehiclePark {
     @Override
     public String toString() {
         return "VehiclePark{" +
-                ", totalParkingSlots=" + totalParkingSlots +
+                " totalParkingSlots=" + totalParkingSlots +
                 ", parkingSlotList=" + parkingSlotList +
                 '}';
     }
 
     public Boolean getIsFull() {
-        for (ParkingSlot slot : parkingSlotList) {
-            if (slot.getIsEmpty()) {
-                return false;
-            }
-        }
-        return true;
+        return (Objects.equals(parkedCarCount, totalParkingSlots));
     }
 
 
+    public void notifyFull() {
+        System.out.println(owner.notifyFull());
+        System.out.println(securityPersonal.notifyFull());
+    }
 }

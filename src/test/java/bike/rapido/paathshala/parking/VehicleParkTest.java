@@ -1,29 +1,40 @@
 package bike.rapido.paathshala.parking;
 
+import bike.rapido.paathshala.notification.Owner;
 import bike.rapido.paathshala.vehicle.Car;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class VehicleParkTest {
-    public static final int TOTAL_PARKING_SLOTS = 10;
+    public static int TOTAL_PARKING_SLOTS = 5;
     public VehiclePark vehicleParkArea;
 
     Car sampleCar = new Car("DL5CQ 0258");
+    Owner owner = new Owner();
 
     public void fillAllParkingSlots() {
         final String tempNumber = "DL5CQ 025";
-        final int index = 0;
-        for (final ParkingSlot parkingSlot : vehicleParkArea.getParkingSlotList()) {
-            parkingSlot.setCar(new Car(tempNumber + index));
+        for (int index = 0; index < TOTAL_PARKING_SLOTS; index++) {
+            ParkingSlot emptyParkingSlot = vehicleParkArea.getEmptyParkingSlot();
+            if (emptyParkingSlot != null) {
+                vehicleParkArea.markParked(emptyParkingSlot, new Car(tempNumber));
+            } else {
+                System.out.println("getting null");
+            }
         }
+        System.out.println(vehicleParkArea);
     }
 
     @Before
     public void setUp() {
-        vehicleParkArea = new VehiclePark(TOTAL_PARKING_SLOTS);
+        vehicleParkArea = new VehiclePark(TOTAL_PARKING_SLOTS, owner);
+
     }
 
     @Test
@@ -80,7 +91,12 @@ public class VehicleParkTest {
 
     @Test
     public void shouldReturnTrueWhenAllParkingSlotsAreFull() {
-        fillAllParkingSlots();
+
+        ParkingSlot emptySlot;
+        while ((emptySlot = vehicleParkArea.getEmptyParkingSlot()) != null) {
+            vehicleParkArea.markParked(emptySlot, sampleCar);
+
+        }
 
         Boolean isFullIndicator = vehicleParkArea.getIsFull();
 
@@ -97,6 +113,23 @@ public class VehicleParkTest {
     //TODO add notify method test
 
     @Test
-    public void shouldCall() {
+    public void shouldNotifyWhenVehicleParkGetsFull() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        ByteArrayOutputStream outError = new ByteArrayOutputStream();
+        PrintStream sysError = System.err, sysOut = System.out;
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(outError));
+
+        String expectedSubString1 = "Owner showed vehicle park full sign.";
+        String expectedSubString2 = "Security Personal informed the team about parking lot getting full.";
+
+        fillAllParkingSlots();
+        String printedString = outContent.toString();
+        System.setOut(sysOut);
+        System.setErr(sysError);
+
+
+        assertTrue(printedString.contains(expectedSubString1) && printedString.contains(expectedSubString2));
+
     }
 }
