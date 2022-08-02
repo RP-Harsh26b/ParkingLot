@@ -94,4 +94,9 @@ public class VehicleParkTest {
         assertFalse(isFullIndicator);
     }
 
+    //TODO add notify method test
+
+    @Test
+    public void shouldCall() {
+    }
 }
