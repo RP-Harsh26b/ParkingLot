@@ -1,6 +1,7 @@
 package bike.rapido.paathshala.parking;
 
 import bike.rapido.paathshala.notification.Owner;
+import bike.rapido.paathshala.notification.SecurityPersonal;
 import bike.rapido.paathshala.vehicle.Car;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,6 @@ public class VehicleParkTest {
     public VehiclePark vehicleParkArea;
 
     Car sampleCar = new Car("DL5CQ 0258");
-    Owner owner = new Owner();
 
     public void fillAllParkingSlots() {
         final String tempNumber = "DL5CQ 025";
@@ -33,7 +33,7 @@ public class VehicleParkTest {
 
     @Before
     public void setUp() {
-        vehicleParkArea = new VehiclePark(TOTAL_PARKING_SLOTS, owner);
+        vehicleParkArea = new VehiclePark(TOTAL_PARKING_SLOTS);
 
     }
 
@@ -119,17 +119,24 @@ public class VehicleParkTest {
         PrintStream sysError = System.err, sysOut = System.out;
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(outError));
-
         String expectedSubString1 = "Owner showed vehicle park full sign.";
         String expectedSubString2 = "Security Personal informed the team about parking lot getting full.";
+        Owner owner = new Owner();
+        SecurityPersonal securityPersonal = new SecurityPersonal();
+        owner.register(vehicleParkArea);
+        securityPersonal.register(vehicleParkArea);
 
         fillAllParkingSlots();
         String printedString = outContent.toString();
+
+        System.out.println(printedString);
+
+        assertTrue(printedString.contains(expectedSubString1));
+        assertTrue(printedString.contains(expectedSubString2));
+
+
         System.setOut(sysOut);
         System.setErr(sysError);
-
-
-        assertTrue(printedString.contains(expectedSubString1) && printedString.contains(expectedSubString2));
 
     }
 }

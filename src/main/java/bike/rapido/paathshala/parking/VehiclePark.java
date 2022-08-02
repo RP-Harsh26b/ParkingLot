@@ -1,30 +1,22 @@
 package bike.rapido.paathshala.parking;
 
-import bike.rapido.paathshala.notification.Owner;
-import bike.rapido.paathshala.notification.SecurityPersonal;
+import bike.rapido.paathshala.notification.ParkingLotObserver;
 import bike.rapido.paathshala.vehicle.Car;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class VehiclePark {
 
     private final Integer totalParkingSlots;
-    private final Owner owner;
-
-    private final SecurityPersonal securityPersonal;
+    private final List<ParkingLotObserver> observerList = new ArrayList<>();
     private ArrayList<ParkingSlot> parkingSlotList = new ArrayList<>();
     private Integer parkedCarCount = 0;
 
 
-    public VehiclePark(final int totalEmptyParkingSlots, Owner owner) {
-        this(totalEmptyParkingSlots, owner, new SecurityPersonal());
-    }
-
-    public VehiclePark(final int totalEmptyParkingSlots, Owner owner, SecurityPersonal securityPersonal) {
+    public VehiclePark(final int totalEmptyParkingSlots) {
         this.totalParkingSlots = totalEmptyParkingSlots;
-        this.owner = owner;
-        this.securityPersonal = securityPersonal;
         this.parkingSlotList = new ArrayList<>();
         for (int index = 0; index < totalEmptyParkingSlots; index++) {
             parkingSlotList.add(new ParkingSlot());
@@ -108,7 +100,16 @@ public class VehiclePark {
 
 
     public void notifyFull() {
-        System.out.println(owner.notifyFull());
-        System.out.println(securityPersonal.notifyFull());
+        for (ParkingLotObserver observer : observerList) {
+            System.out.println(observer.notifyFull());
+        }
+    }
+
+    public void register(ParkingLotObserver observerEntity) {
+        observerList.add(observerEntity);
+    }
+
+    public void unRegister(ParkingLotObserver observerEntity) {
+        observerList.remove(observerEntity);
     }
 }

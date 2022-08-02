@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class ParkingManagement {
     Owner owner = new Owner();
-    VehiclePark vehiclePark = new VehiclePark(10, owner);
+    VehiclePark vehiclePark = new VehiclePark(10);
 
     public static void main(final String[] args) {
         final ParkingManagement parkingManagement = new ParkingManagement();

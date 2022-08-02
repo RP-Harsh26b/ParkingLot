@@ -29,7 +29,7 @@ public class PersonTest {
     public void setUp() {
         person = new Person(car, "Harshit");
         owner = new Owner();
-        vehicleParkArea = new VehiclePark(totalParkingSlots, owner);
+        vehicleParkArea = new VehiclePark(totalParkingSlots);
     }
 
     @Test
