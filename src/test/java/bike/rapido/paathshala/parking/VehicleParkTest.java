@@ -23,12 +23,11 @@ public class VehicleParkTest {
         for (int index = 0; index < TOTAL_PARKING_SLOTS; index++) {
             ParkingSlot emptyParkingSlot = vehicleParkArea.getEmptyParkingSlot();
             if (emptyParkingSlot != null) {
-                vehicleParkArea.markParked(emptyParkingSlot, new Car(tempNumber));
+                vehicleParkArea.markParked(emptyParkingSlot, sampleCar);
             } else {
                 System.out.println("getting null");
             }
         }
-        System.out.println(vehicleParkArea);
     }
 
     @Before
@@ -125,7 +124,6 @@ public class VehicleParkTest {
         SecurityPersonal securityPersonal = new SecurityPersonal();
         owner.register(vehicleParkArea);
         securityPersonal.register(vehicleParkArea);
-
         fillAllParkingSlots();
         String printedString = outContent.toString();
 
@@ -137,6 +135,39 @@ public class VehicleParkTest {
 
         System.setOut(sysOut);
         System.setErr(sysError);
+
+    }
+
+    @Test
+    public void shouldNotifyWhenVehicleParkChangesFromFullToNotFull() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        ByteArrayOutputStream outError = new ByteArrayOutputStream();
+        PrintStream sysError = System.err, sysOut = System.out;
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(outError));
+        String expectedSubString1 = "Owner removed the vehicle park full sign.";
+        String expectedSubString2 = "Security Personal informed the team about parking lot changing to not full.";
+
+
+        Owner owner = new Owner();
+        SecurityPersonal securityPersonal = new SecurityPersonal();
+        owner.register(vehicleParkArea);
+        securityPersonal.register(vehicleParkArea);
+        fillAllParkingSlots();
+        ParkingSlot parkingSlot = vehicleParkArea.getParkingSlotWithVehicle(sampleCar);
+        vehicleParkArea.markUnParked(parkingSlot);
+
+        String printedString = outContent.toString();
+
+        System.out.println(printedString);
+
+        assertTrue(printedString.contains(expectedSubString1));
+        assertTrue(printedString.contains(expectedSubString2));
+
+
+        System.setOut(sysOut);
+        System.setErr(sysError);
+
 
     }
 }

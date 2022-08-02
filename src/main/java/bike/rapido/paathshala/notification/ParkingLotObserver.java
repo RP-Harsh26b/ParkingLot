@@ -1,15 +1,18 @@
 package bike.rapido.paathshala.notification;
 
-import bike.rapido.paathshala.parking.VehiclePark;
 
-public interface ParkingLotObserver {
+import java.util.Observable;
+import java.util.Observer;
+
+public interface ParkingLotObserver extends Observer {
+
     String notifyFull();
 
-    default void register(VehiclePark vehiclePark) {
-        vehiclePark.register(this);
-    }
+    String notifyChangedToNotFull();
 
-    default void unRegister(VehiclePark vehiclePark) {
-        vehiclePark.unRegister(this);
+    void update(Observable o, Object isFull);
+
+    default void register(Observable observable) {
+        observable.addObserver(this);
     }
 }

@@ -1,18 +1,18 @@
 package bike.rapido.paathshala.parking;
 
-import bike.rapido.paathshala.notification.ParkingLotObserver;
 import bike.rapido.paathshala.vehicle.Car;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.Observable;
 
-public class VehiclePark {
+public class VehiclePark extends Observable {
 
     private final Integer totalParkingSlots;
-    private final List<ParkingLotObserver> observerList = new ArrayList<>();
-    private ArrayList<ParkingSlot> parkingSlotList = new ArrayList<>();
+    private final ArrayList<ParkingSlot> parkingSlotList;
     private Integer parkedCarCount = 0;
+
+    private Boolean isFull;
 
 
     public VehiclePark(final int totalEmptyParkingSlots) {
@@ -21,7 +21,7 @@ public class VehiclePark {
         for (int index = 0; index < totalEmptyParkingSlots; index++) {
             parkingSlotList.add(new ParkingSlot());
         }
-
+        this.isFull = getIsFull();
     }
 
     public int getTotalParkingSlotsCount() {
@@ -45,7 +45,9 @@ public class VehiclePark {
     public void setParkedCarCount(Integer parkedCarCount) {
         this.parkedCarCount = parkedCarCount;
         if (Objects.equals(parkedCarCount, totalParkingSlots)) {
-            notifyFull();
+            setFull(true);
+        } else if (this.parkedCarCount == (totalParkingSlots - 1)) {
+            setFull(false);
         }
     }
 
@@ -77,7 +79,7 @@ public class VehiclePark {
 
     public ParkingSlot markUnParked(final ParkingSlot fullParkingSlot) {
         for (final ParkingSlot slot : parkingSlotList) {
-            if (Objects.equals(slot, fullParkingSlot)) {
+            if (slot.getId().equals(fullParkingSlot.getId()) && !slot.getIsEmpty()) {
                 slot.setCar(null);
                 setParkedCarCount(getParkedCarCount() - 1);
                 return slot;
@@ -99,17 +101,10 @@ public class VehiclePark {
     }
 
 
-    public void notifyFull() {
-        for (ParkingLotObserver observer : observerList) {
-            System.out.println(observer.notifyFull());
-        }
+    public void setFull(Boolean isFull) {
+        this.isFull = isFull;
+        setChanged();
+        notifyObservers(isFull);
     }
 
-    public void register(ParkingLotObserver observerEntity) {
-        observerList.add(observerEntity);
-    }
-
-    public void unRegister(ParkingLotObserver observerEntity) {
-        observerList.remove(observerEntity);
-    }
 }
