@@ -22,7 +22,7 @@ public class ParkingManagement {
 
 		final Car car = new Car(vehicleNumber);
 		final Person person = new Person(car, name);
-		
+
 		try {
 			final ParkingSlot parkedSlot = person.parkTheCar(parkingManagement.vehiclePark);
 			System.out.format("Vehicle Parked!\nParking Slot Details : %s\n", parkedSlot);

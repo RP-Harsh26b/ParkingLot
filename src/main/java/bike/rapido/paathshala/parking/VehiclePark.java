@@ -4,18 +4,21 @@ import bike.rapido.paathshala.vehicle.Car;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class VehiclePark {
 
 	private final Integer totalParkingSlots;
 	private final ArrayList<ParkingSlot> parkingSlotList;
+	private final List<ParkingLotObserver> parkingLotObservers;
 
 	public VehiclePark(final int totalEmptyParkingSlots) {
 		this.totalParkingSlots = totalEmptyParkingSlots;
+		this.parkingLotObservers = new ArrayList<>();
 		final ParkingSlot emptyParkingSlotObject = new ParkingSlot();
 		parkingSlotList = new ArrayList<>(
-				Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
+			Collections.nCopies(totalEmptyParkingSlots, emptyParkingSlotObject));
 	}
 
 	public int getTotalParkingSlotsCount() {
@@ -50,6 +53,11 @@ public class VehiclePark {
 		for (final ParkingSlot slot : parkingSlotList) {
 			if (Objects.equals(slot, emptyParkingSlot) && slot.getIsEmpty()) {
 				slot.setCar(car);
+				if (getIsFull()) {
+					for (final ParkingLotObserver parkingLotObserver : parkingLotObservers) {
+						parkingLotObserver.notifySubscriberParkingLotFull();
+					}
+				}
 				return slot;
 			}
 		}
@@ -60,6 +68,11 @@ public class VehiclePark {
 		for (final ParkingSlot slot : parkingSlotList) {
 			if (Objects.equals(slot, fullParkingSlot)) {
 				slot.setCar(null);
+				if (!getIsFull()) {
+					for (final ParkingLotObserver parkingLotObserver : parkingLotObservers) {
+						parkingLotObserver.notifySubscriberParkingLotNotFull();
+					}
+				}
 				return slot;
 			}
 		}
@@ -69,17 +82,21 @@ public class VehiclePark {
 	@Override
 	public String toString() {
 		return "VehiclePark{" +
-				", totalParkingSlots=" + totalParkingSlots +
-				", parkingSlotList=" + parkingSlotList +
-				'}';
+			", totalParkingSlots=" + totalParkingSlots +
+			", parkingSlotList=" + parkingSlotList +
+			'}';
 	}
 
 	public Boolean getIsFull() {
-		for (ParkingSlot slot : parkingSlotList) {
+		for (final ParkingSlot slot : parkingSlotList) {
 			if (slot.getIsEmpty()) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	public void subscribeForNotification(final ParkingLotObserver observer) {
+		parkingLotObservers.add(observer);
 	}
 }
